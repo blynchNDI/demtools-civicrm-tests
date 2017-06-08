@@ -7,6 +7,7 @@
       - hosting_civicrm
       - hosting_site_reinstall
       - hosting_valkyrie
+    valkyrie_generate_deploy_keys: False
 
   pre_tasks:
 
