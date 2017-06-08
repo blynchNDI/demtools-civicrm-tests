@@ -1,0 +1,29 @@
+---
+language: python
+python: "2.7"
+
+dist: trusty
+
+env:
+  global:
+    - ANSIBLE_ROLES_PATH=tests/roles
+    - ANSIBLE_PLAYBOOK=tests/playbooks/test.yml
+    - ANSIBLE_REQUIREMENTS=tests/roles/requirements.yml
+
+install:
+  - sudo make deps-ansible
+  - pip install pyyaml jinja2
+  - make ansible
+
+script:
+  # Bootstrap Drumkit
+  - ". d"
+
+  # Run playbook tests
+  - make ansible-playbook-test-idempotence
+
+  # Check Aegir is installed and working.
+  - sudo -u aegir -H drush @hm status | grep eldir
+
+  # Check that the Skynet service is running
+  - sudo supervisorctl status skynet-queue |grep RUNNING

@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  author: Christopher Gervais (ergonlogic)
+  description: Aegir - Drupal hosting and provisioning
+  company: "Ergon Logic Enterprises"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 1.4
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  galaxy_tags:
+    - development
+    - hosting
+    - web
+    - aegir
+dependencies: []

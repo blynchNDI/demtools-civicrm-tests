@@ -15,7 +15,7 @@
   copy:
     dest: "/etc/sudoers.d/{{ aegir_user }}-avahi"
     content: |
-      {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart avahi-aliases\n
+      {{ aegir_user }} ALL=NOPASSWD: /usr/bin/supervisorctl restart avahi-aliases
     mode: 0440
 
 - name: Clone Avahi-aliases
@@ -43,14 +43,14 @@
     path: /etc/avahi/aliases.d
     state: directory
 
-#- name: Create Skynet config file
-#  meta: flush_handlers
-
 - name: Add Avahi-aliases Supervisor config
   template:
     src: avahi-aliases.conf.j2
     dest: /etc/supervisor/conf.d/avahi-aliases.conf
   notify: Reload Supervisor
+
+- name: Ensure that Supervisor is reloaded
+  meta: flush_handlers
 
 - name: Start Avahi-aliases via Supervisor
   supervisorctl:

@@ -1,0 +1,38 @@
+---
+- name: Ensure Aegir's dependencies are installed.
+  include: dependencies.yml
+  when: (aegir_manage_dependencies == true) and (ansible_os_family == 'Debian')
+
+- name: Install additional packages.
+  apt:
+    name: "{{ item }}"
+    state: installed
+  when: (aegir_install_additional_packages == true) and (ansible_os_family == 'Debian')
+  with_items: "{{ aegir_additional_packages }}"
+
+- name: Default Aegir database password to MySQL root password
+  set_fact:
+    aegir_db_password: "{{ mysql_root_password }}"
+  when: (aegir_db_password is not defined) and (mysql_root_password is defined)
+
+- name: Default Aegir database user to MySQL root user
+  set_fact:
+    aegir_db_user: "{{ mysql_root_user }}"
+  when: (aegir_db_user is not defined) and (mysql_root_user is defined)
+
+- name: Install Aegir via Git.
+  include: git.yml
+  when: aegir_install_method == "git"
+
+- name: Install Aegir via Debian packages.
+  include: deb.yml
+  when: aegir_install_method == "deb"
+
+- include: generate-keypair.yml
+  when: aegir_generate_keypair
+
+- name: Ensure Hosting is recognized as enabled
+  shell: drush @hostmaster cc drush
+  become: yes
+  become_user: "{{ aegir_user }}"
+  changed_when: False

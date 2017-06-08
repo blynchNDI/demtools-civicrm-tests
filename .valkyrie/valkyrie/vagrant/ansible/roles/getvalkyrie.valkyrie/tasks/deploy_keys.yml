@@ -13,8 +13,9 @@
 - name: Generate an SSH key-pair
   command: "ssh-keygen -q -t rsa -N '' -C '{{ valkyrie_deploy_comment }}' -f {{ valkyrie_deploy_key_dir }}/{{ valkyrie_deploy_key_name }}"
   args:
-    creates: "{{ valkyrie_deploy_key_dir }}/{{ valkyrie_deploy_key_name }}"
-    creates: "{{ valkyrie_deploy_key_dir }}/{{ valkyrie_deploy_key_name }}.pub"
+    creates:
+      - "{{ valkyrie_deploy_key_dir }}/{{ valkyrie_deploy_key_name }}"
+      - "{{ valkyrie_deploy_key_dir }}/{{ valkyrie_deploy_key_name }}.pub"
   sudo: yes
   sudo_user: "{{ valkyrie_deploy_user }}"
   when: not deploy_key_check.stat.exists

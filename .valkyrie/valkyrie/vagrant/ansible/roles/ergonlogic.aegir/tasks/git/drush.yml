@@ -1,0 +1,35 @@
+---
+
+# Ref.: http://docs.drush.org/en/master/install/
+
+- name: Use latest stable release of Drush
+  set_fact:
+    drush_phar_download_url: http://files.drush.org/drush.phar
+  when: aegir_drush_version == 'stable'
+  changed_when: False
+
+- name: Use upcoming (unstable) release of Drush
+  set_fact:
+    drush_phar_download_url: http://files.drush.org/drush-unstable.phar
+  when: aegir_drush_version == 'unstable'
+  changed_when: False
+
+- name: Use a specific release of Drush
+  set_fact:
+    drush_phar_download_url: "https://github.com/drush-ops/drush/releases/download/{{ aegir_drush_version }}/drush.phar"
+  when: (aegir_drush_version != 'stable') and (aegir_drush_version != 'unstable')
+  changed_when: False
+
+- name: Download Drush phar
+  get_url:
+    url: "{{ drush_phar_download_url }}"
+    dest: /usr/local/bin/drush
+
+- name: Ensure Drush is executable
+  file:
+    path: /usr/local/bin/drush
+    mode: "a+x"
+
+- name: Test Drush install
+  shell: drush core-status
+  changed_when: False
