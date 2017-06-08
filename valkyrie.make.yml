@@ -1,0 +1,25 @@
+core: 7.x
+api: 2
+
+projects:
+  drupal:
+    type: "core"
+  hostmaster:
+    type: "profile"
+
+  hosting_valkyrie:
+    type: "module"
+    download:
+      type: "git"
+      url: "http://github.com/GetValkyrie/hosting_valkyrie.git"
+      branch: "master"
+
+  hosting_dev: { version: ~ }
+
+  hosting_ndi:
+    type: module
+    download:
+      type: "git"
+      url: "http://github.com/nditech/hosting_ndi.git"
+      branch: "metrics-probe"
+

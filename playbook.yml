@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: true
+  become_user: aegir
+
+  vars:
+    makefiles_dir: /var/aegir/makefiles
+    ndiplatforms_dir: "{{ makefiles_dir }}/NDIplatforms"
+
+  tasks:
+
+    - name: Install additional packages for CiviCRM.
+      apt:
+        name: "{{ item }}"
+      become_user: root
+      with_items:
+        - php-mbstring
+        - php-curl
+
+    - name: Ensure makefiles directory exists.
+      file:
+        path: "{{ makefiles_dir }}"
+        state: directory
+
+    - name: Ensure NDIplatforms is present and up-to-date.
+      git:
+        repo: 'https://github.com/nditech/NDIplatforms.git'
+        dest: "{{ ndiplatforms_dir }}"
+        update: yes
+
+    - name: Build a DemTools CiviCRM platform.
+      shell: make demtools/civicrm-platform
+      args:
+        chdir: "{{ ndiplatforms_dir }}"
+        creates: /var/aegir/platforms/demtools-civicrm-*
+
