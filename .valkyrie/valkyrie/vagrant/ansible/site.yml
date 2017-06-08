@@ -1,13 +1,15 @@
 ---
-- hosts: localhost
+- hosts: all
   vars:
-    - drush_version: 7.x
-    - host_uid: 1000
-  pre_tasks:
-    - name: Create 'aegir' user to map to host user
-      user:
-        name: aegir
-        uid: "{{ host_uid }}"
+    aegir_makefile: /vagrant/.valkyrie/valkyrie/vagrant/ansible/roles/getvalkyrie.valkyrie/files/valkyrie.make
+    aegir_frontend_url: valkyrie.local
+#  pre_tasks:
+#    - name: Create 'aegir' user to map to host user
+#      user:
+#        name: aegir
+#        uid: "{{ host_uid }}"
   roles:
     - geerlingguy.mysql
+    - ergonlogic.aegir
+    - ergonlogic.skynet
     - getvalkyrie.valkyrie

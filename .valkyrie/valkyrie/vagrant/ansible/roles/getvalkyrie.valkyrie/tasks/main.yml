@@ -30,7 +30,7 @@
   become: True
   become_user: "{{ aegir_user }}"
   register: valkyrie_modules_enabled
-  with_items: valkyrie_modules
+  with_items: "{{ valkyrie_modules }}"
   changed_when: False
   failed_when: False
   ignore_errors: yes
@@ -39,7 +39,7 @@
   command: "drush @hm --yes en {{ item.1 }} --no-verify --strict=0"
   become: True
   become_user: "{{ aegir_user }}"
-  with_indexed_items: valkyrie_modules
+  with_indexed_items: "{{ valkyrie_modules }}"
   when: valkyrie_modules_enabled.results[item.0].rc == 0
   notify: Verify Aegir front-end
 
