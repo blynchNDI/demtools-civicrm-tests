@@ -110,15 +110,22 @@
   become: True
   become_user: "{{ aegir_user }}"
 
+- name: Ensure the Valkyrie cache directory exists.
+  file:
+    state: directory
+    path: /vagrant/.valkyrie/cache
+
 - name: Clear Drush cache to pick up Valkyrie extension.
   shell: drush cc drush
   become: True
   become_user: "{{ aegir_user }}"
+  changed_when: False
 
 - name: Verify @hostmaster site to generate host system aliases.
   shell: drush @hostmaster provision-verify
   become: True
   become_user: "{{ aegir_user }}"
+  changed_when: False
 
 - name: Retrieve Aegir login link
   shell: "
