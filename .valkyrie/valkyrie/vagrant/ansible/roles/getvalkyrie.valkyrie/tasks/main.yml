@@ -102,6 +102,11 @@
   become: True
   become_user: "{{ aegir_user }}"
 
+- name: Ensure the Valkyrie cache directory exists.
+  file:
+    state: directory
+    path: /vagrant/.valkyrie/cache
+
 - name: Symlink Valkyrie cache directory into place
   file:
     state: link
@@ -109,11 +114,6 @@
     dest: /var/aegir/.cache
   become: True
   become_user: "{{ aegir_user }}"
-
-- name: Ensure the Valkyrie cache directory exists.
-  file:
-    state: directory
-    path: /vagrant/.valkyrie/cache
 
 - name: Clear Drush cache to pick up Valkyrie extension.
   shell: drush cc drush
