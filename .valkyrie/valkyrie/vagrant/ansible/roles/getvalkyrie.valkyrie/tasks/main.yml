@@ -94,6 +94,32 @@
 - include: deploy_keys.yml
   when: valkyrie_generate_deploy_keys == True
 
+- name: Symlink Valkyrie Drush extension into place
+  file:
+    state: link
+    src: /vagrant/.valkyrie/valkyrie
+    dest: /var/aegir/.drush/valkyrie
+  become: True
+  become_user: "{{ aegir_user }}"
+
+- name: Symlink Valkyrie cache directory into place
+  file:
+    state: link
+    src: /vagrant/.valkyrie/cache
+    dest: /var/aegir/.cache
+  become: True
+  become_user: "{{ aegir_user }}"
+
+- name: Clear Drush cache to pick up Valkyrie extension.
+  shell: drush cc drush
+  become: True
+  become_user: "{{ aegir_user }}"
+
+- name: Verify @hostmaster site to generate host system aliases.
+  shell: drush @hostmaster provision-verify
+  become: True
+  become_user: "{{ aegir_user }}"
+
 - name: Retrieve Aegir login link
   shell: "
   echo '/////////////////////////////////////////////////////////////////////////////';
@@ -112,5 +138,7 @@
 
 - include: notifications.yml
   when: valkyrie_display_notifications == True
+     
+
 
 
