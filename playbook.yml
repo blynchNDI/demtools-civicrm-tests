@@ -9,6 +9,10 @@
 
   tasks:
 
+    - name: Ensure that the Hosting module is recognized by Drush.
+      shell: drush @hm cc drush
+      changed_when: false
+
     - name: Install additional packages for CiviCRM.
       apt:
         name: "{{ item }}"
