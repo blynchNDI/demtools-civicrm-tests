@@ -8,10 +8,13 @@
       - hosting_site_reinstall
       - hosting_valkyrie
     valkyrie_generate_deploy_keys: False
+    aegir_fix_ownership: true
+    aegir_fix_permissions: true
+    aegir_registry_rebuild: true
 
   pre_tasks:
 
-    - name: Allow Aegir makefile to be overridden by local Aegir makefile.
+    - name: Allow Aegir makefile to be overridden by local Valkyrie makefile.
       set_fact:
         aegir_makefile: "{{ item }}"
       with_first_found:

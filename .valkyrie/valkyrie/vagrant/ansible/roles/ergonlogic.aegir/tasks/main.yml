@@ -31,6 +31,15 @@
 - include: generate-keypair.yml
   when: aegir_generate_keypair
 
+- include: fix_permissions.yml
+  when: aegir_fix_permissions
+
+- include: fix_ownership.yml
+  when: aegir_fix_ownership
+
+- include: registry_rebuild.yml
+  when: aegir_registry_rebuild
+
 - name: Ensure Hosting is recognized as enabled
   shell: drush @hostmaster cc drush
   become: yes

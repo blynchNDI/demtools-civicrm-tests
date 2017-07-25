@@ -1,0 +1,13 @@
+---
+
+- name: Clone Registry Rebuild Drush command.
+  git:
+    repo: 'https://git.drupal.org/project/registry_rebuild.git'
+    version: '7.x-2.5'
+    dest: "{{ aegir_root }}/.drush/registry_rebuild"
+
+- name: Refresh Drush cache to ensure new commandfile is found.
+  shell: drush @none cc drush
+  become: true
+  become_user: "{{ aegir_user }}"
+  changed_when: false

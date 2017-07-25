@@ -2,10 +2,20 @@ core: 7.x
 api: 2
 
 projects:
+
   drupal:
     type: "core"
+
   hostmaster:
     type: "profile"
+
+  hosting_civicrm:
+    type: "module"
+    download:
+      type: "git"
+      url: "http://github.com/nditech/hosting_civicrm.git"
+      branch: "ndi_prod"
+      working-copy: true
 
   hosting_valkyrie:
     type: "module"
@@ -13,6 +23,7 @@ projects:
       type: "git"
       url: "http://github.com/GetValkyrie/hosting_valkyrie.git"
       branch: "master"
+      working-copy: true
 
   hosting_dev: { version: ~ }
 
@@ -22,4 +33,5 @@ projects:
       type: "git"
       url: "http://github.com/nditech/hosting_ndi.git"
       branch: "metrics-probe"
+      working-copy: true
 
