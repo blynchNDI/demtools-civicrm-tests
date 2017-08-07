@@ -4,6 +4,61 @@ DemTools CiviCRM Tests
 This project aims to develop behaviour tests for DemTools CiviCRM using Behat.
 
 
+Usage
+-----
+
+For installation and setup, see below.
+
+Navigate to the repository, as installed on your server:
+
+    $ cd ~/demtools-civicrm-tests   # This is the default, for now.
+
+Drumkit should already be installed as a git submodule. We need to bootstrap
+it, in order to inject some environment variables. We'll need to do this every
+time we start a new shell session:
+
+    $ . d
+
+We can then check that Behat is properly installed like so:
+
+    $ behat --version
+    behat version 3.1.0
+
+Next, we need to tell Behat which site we want to run our tests against. The
+first step is to find the proper Drush alias for the site we want:
+
+    $ drush sa |grep chris
+    @chris-test.demcloud.org
+
+With that, we can build the the additional environment variable that we'll use
+to tell Behat which site to use:
+
+    $ drush @chris-test.demcloud.org bde-env-gen
+    export BEHAT_PARAMS='{"extensions":{"Behat\\MinkExtension":{"base_url":"http://chris-test.demcloud.org"},"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"/var/aegir/platforms/demtools-civicrm-20170807"},"drush":{"alias":"chris-test.demcloud.org"},"subcontexts":{"paths":["/var/aegir/platforms/demtools-civicrm-20170807/sites/all/modules"]}}}}'
+
+You can either copy/paste the result, or inject it directly into the environment by running:
+
+    $ eval $(drush @chris-test.demcloud.org bde-env-gen)
+
+You can check that this worked, by examining the environment variable:
+
+    $ echo $BEHAT_PARAMS
+    {"extensions":{"Behat\\MinkExtension":{"base_url":"http://chris-test.demcloud.org"},"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"/var/aegir/platforms/demtools-civicrm-20170807"},"drush":{"alias":"chris-test.demcloud.org"},"subcontexts":{"paths":["/var/aegir/platforms/demtools-civicrm-20170807/sites/all/modules"]}}}}
+
+We're now ready to run our tests:
+
+    $ behat
+    @api @dashboard
+    Feature: CiviCRM homepage dashboard
+      In order to conveniently access CiviCRM's primary functionality
+      as a CiviCRM Administrator,
+      I want to have a dashboard on the frontpage.
+    [...]
+    12 scenarios (12 passed)
+    65 steps (65 passed)
+    0m45.40s (59.47Mb)
+
+
 Setup
 -----
 
