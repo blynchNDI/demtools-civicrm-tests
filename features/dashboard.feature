@@ -12,7 +12,7 @@ Feature: CiviCRM homepage dashboard
   Scenario: CiviCRM is the front page
      Then the "h1[class='title']" element should contain "CiviCRM Home"
 
-  @dashboard
+  @dashboard @to-do
   Scenario Outline: Dashboard "Contacts" buttons all work.
      When I press the "<BUTTON>" CiviCRM button
      Then I should be on "<PATH>"

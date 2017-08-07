@@ -1,6 +1,8 @@
 default:
   gherkin:
     cache: null
+    filters:
+      tags: "~@wip&&~@devel&&~@disabled"
   suites:
     default:
       contexts:
@@ -13,12 +15,9 @@ default:
     Behat\MinkExtension:
       goutte: ~
       selenium2: ~
-      base_url: http://example.local
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'
-      drupal:
-        drupal_root: '/var/aegir/platforms/demtools-civicrm-20170608'
       region_map:
         content: '#content'
       selectors:
